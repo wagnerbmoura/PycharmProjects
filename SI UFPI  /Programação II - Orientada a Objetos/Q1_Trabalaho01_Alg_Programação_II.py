@@ -45,13 +45,15 @@ class Conta:
     def saca(self, valor, data=None):
         if valor <= self.saldo + self.limite:
             self.saldo -= valor
+            self.limite -= (self.limite + self.saldo)
+            self.saldo = 0
             transacao = f'{data.dia}/{data.mes}/{data.ano} - Saque: R$ {valor:.2f}'
             self.historico.registrar_transacao(transacao)
             return True
         return False
 
     def transfere_para(self, destino, valor, data=None):
-        if self.saca(valor, data):
+        if valor <= self.saldo + self.limite:
             destino.deposita(valor, data)
             transacao = f'{data.dia}/{data.mes}/{data.ano} - Transferência para conta {destino.numero}: R$ {valor:.2f}'
             self.historico.registrar_transacao(transacao)
@@ -75,17 +77,21 @@ class Conta:
 
 cliente1 = Cliente("Wagner", "Moura", "123456789")
 conta1 = Conta("0123456", cliente1, limite=5000)
+conta2 = Conta("0123457",cliente1,limite=3000)
 
 data_deposito = Data(10, 3, 2022)
 conta1.deposita(1000, data_deposito)
 
 data_saque = Data(15, 3, 2022)
-conta1.saca(500, data_saque)
+conta1.saca(3000, data_saque)
+
+data_transferencia = Data(1, 10,2023)
 
 conta1.extrato()
 
 '''Isso irá criar um cliente chamado Wagner Moura, com CPF 123456789, e uma conta com número "0123456"
 e limite de R$ 5000. Em seguida, é realizada uma operação de depósito no valor de R$ 1000 em 10/03/2022,
-seguida por um saque de R$ 500 em 15/03/2022.Por fim, o extrato da conta será impresso com todas as transações registradas.'''
+seguida por um saque de R$ 3000 em 15/03/2022, em seguida uma transferencia de R$2000 em 1/10/2023 para conta de mesmo cliente.
+Por fim, o extrato da conta será impresso com todas as transações registradas.'''
 
 

@@ -83,7 +83,7 @@ atributos dinâmicos além dos especificados na lista.
         Dessa forma, podemos criar objetos da classe Conta normalmente e acessar os atributos de maneira segura:  '''
 
 #EXEMPLOS:
-cliente1 = Cliente("João", "Silva", "123456789")
+cliente1 = Cliente("Wagner", "Wagner", "123456789")
 conta1 = Conta(cliente1, limite=5000)
 
 data_deposito = Data(10, 3, 2022)
